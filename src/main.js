@@ -2,10 +2,13 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import ApiService from "./common/api.service";
 import ErrorFilter from "./common/error.filter";
 
 Vue.config.productionTip = false;
 Vue.filter("error", ErrorFilter);
+
+ApiService.init();
 
 new Vue({
   router,
