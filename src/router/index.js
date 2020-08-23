@@ -21,6 +21,11 @@ export default new Router({
       name: "register",
       path: "/register",
       component: () => import("@/views/Register")
+    },
+    {
+      name: "settings",
+      path: "/settings",
+      component: () => import("@/views/Settings")
     }
   ]
 });
