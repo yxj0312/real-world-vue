@@ -10,7 +10,24 @@ export default new Router({
     {
       name: "home",
       path: "/",
-      component: () => import("@/views/Home")
+      component: () => import("@/views/Home"),
+      children: [
+        {
+          path: "",
+          name: "home",
+          component: () => import("@/views/HomeGlobal")
+        },
+        {
+          path: "my-feed",
+          name: "home-my-feed",
+          component: () => import("@/views/HomeMyFeed")
+        },
+        {
+          path: "tag/:tag",
+          name: "home-tag",
+          component: () => import("@/views/HomeTag")
+        }
+      ]
     },
     {
       name: "login",
