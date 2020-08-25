@@ -20,7 +20,7 @@ const getters = {
   }
 };
 
-const actions = {
+export const actions = {
   [FETCH_ARTICLES]({ commit }, params) {
     commit(FETCH_START);
     return ArticlesService.query(params.type, params.filters)
