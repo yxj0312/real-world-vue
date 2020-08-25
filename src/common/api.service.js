@@ -32,3 +32,9 @@ const ApiService = {
 };
 
 export default ApiService;
+
+export const ArticlesService = {
+  get(slug) {
+    return ApiService.get("articles", slug);
+  }
+};
