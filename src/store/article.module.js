@@ -26,3 +26,15 @@ export const actions = {
     return data;
   }
 };
+
+const getters = {
+  article(state) {
+    return state.article;
+  }
+};
+
+export default {
+  state,
+  actions,
+  getters
+};

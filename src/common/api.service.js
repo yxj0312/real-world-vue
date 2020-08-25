@@ -16,6 +16,12 @@ const ApiService = {
     ] = `Token ${JwtService.getToken()}`;
   },
 
+  query(resource, params) {
+    return Vue.axios.get(resource, params).catch(error => {
+      throw new Error(`[RWV] ApiService ${error}`);
+    });
+  },
+
   get(resource, slug = "") {
     return Vue.axios.get(`${resource}/${slug}`).catch(error => {
       throw new Error(`[RMV] ApiService ${error}`);
@@ -34,6 +40,11 @@ const ApiService = {
 export default ApiService;
 
 export const ArticlesService = {
+  query(type, params) {
+    return ApiService.query("articles" + (type === "feed" ? "/feed" : ""), {
+      params: params
+    });
+  },
   get(slug) {
     return ApiService.get("articles", slug);
   }

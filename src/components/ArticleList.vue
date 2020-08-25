@@ -17,6 +17,7 @@
 <script>
 import { mapGetters } from "vuex";
 import RwvArticlePrview from "./VArticlePreview";
+import { FETCH_ARTICLES } from "@/store/actions.type";
 
 export default {
   name: "RwvArticleList",
@@ -31,7 +32,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLoading"])
+    listConfig() {
+      const { type } = this;
+      const filters = {};
+      return {
+        type,
+        filters
+      };
+    },
+    ...mapGetters(["isLoading", "articles"])
+  },
+  mounted() {
+    this.fetchArticles();
+  },
+  methods: {
+    fetchArticles() {
+      this.$store.dispatch(FETCH_ARTICLES, this.listConfig);
+    }
   }
 };
 </script>
