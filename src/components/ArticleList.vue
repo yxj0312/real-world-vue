@@ -10,6 +10,7 @@
         :article="article"
         :key="article.title + index"
       />
+      <VPagination :pages="pages" :currentPage.sync="currentPage" />
     </div>
   </div>
 </template>
@@ -18,11 +19,13 @@
 import { mapGetters } from "vuex";
 import RwvArticlePrview from "./VArticlePreview";
 import { FETCH_ARTICLES } from "@/store/actions.type";
+import VPagination from "@/components/VPagination";
 
 export default {
   name: "RwvArticleList",
   components: {
-    RwvArticlePrview
+    RwvArticlePrview,
+    VPagination
   },
   props: {
     type: {
@@ -30,16 +33,45 @@ export default {
       required: false,
       default: "all"
     },
+    author: {
+      type: String,
+      required: false
+    },
+    tag: {
+      type: String,
+      required: false
+    },
+    favorited: {
+      type: String,
+      required: false
+    },
     itemsPerPage: {
       type: Number,
       required: false,
       default: 10
     }
   },
+  data() {
+    return {
+      currentPage: 1
+    };
+  },
   computed: {
     listConfig() {
       const { type } = this;
-      const filters = {};
+      const filters = {
+        offset: (this.currentPage - 1) * this.itemsPerPage,
+        limit: this.itemsPerPage
+      };
+      if (this.author) {
+        filters.author = this.author;
+      }
+      if (this.tag) {
+        filters.tag = this.tag;
+      }
+      if (this.favorited) {
+        filters.favorited = this.favorited;
+      }
       return {
         type,
         filters
@@ -55,12 +87,39 @@ export default {
     },
     ...mapGetters(["articlesCount", "isLoading", "articles"])
   },
+
+  watch: {
+    currentPage(newValue) {
+      this.listConfig.filters.offset = (newValue - 1) * this.itemsPerPage;
+      this.fetchArticles();
+    },
+    type() {
+      this.resetPagination();
+      this.fetchArticles();
+    },
+    author() {
+      this.resetPagination();
+      this.fetchArticles();
+    },
+    tag() {
+      this.resetPagination();
+      this.fetchArticles();
+    },
+    favorited() {
+      this.resetPagination();
+      this.fetchArticles();
+    }
+  },
   mounted() {
     this.fetchArticles();
   },
   methods: {
     fetchArticles() {
       this.$store.dispatch(FETCH_ARTICLES, this.listConfig);
+    },
+    resetPagination() {
+      this.listConfig.offset = 0;
+      this.currentPage = 1;
     }
   }
 };
