@@ -4,8 +4,8 @@ import { FETCH_ARTICLES } from "@/store/actions.type";
 jest.mock("vue", () => {
   return {
     axios: {
-      get: jest.fn().mockImplementation(async params => {
-        if (params) {
+      get: jest.fn().mockImplementation(async (resources, params) => {
+        if (resources === "articles" && params) {
           return {
             data: {
               articles: [

@@ -21,11 +21,12 @@ const getters = {
 };
 
 export const actions = {
-  [FETCH_ARTICLES]({ commit }, params) {
+  async [FETCH_ARTICLES]({ commit }, params) {
     commit(FETCH_START);
     return ArticlesService.query(params.type, params.filters)
       .then(({ data }) => {
         commit(FETCH_END, data);
+        return data;
       })
       .catch(error => {
         throw new Error(error);
