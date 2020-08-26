@@ -29,6 +29,11 @@ export default {
       type: String,
       required: false,
       default: "all"
+    },
+    itemsPerPage: {
+      type: Number,
+      required: false,
+      default: 10
     }
   },
   computed: {
@@ -40,7 +45,15 @@ export default {
         filters
       };
     },
-    ...mapGetters(["isLoading", "articles"])
+    pages() {
+      if (this.isLoading || this.articlesCount <= this.itemsPerPage) {
+        return [];
+      }
+      return [
+        ...Array(Math.ceil(this.articlesCount / this.itemsPerPage)).keys()
+      ].map(e => e + 1);
+    },
+    ...mapGetters(["articlesCount", "isLoading", "articles"])
   },
   mounted() {
     this.fetchArticles();

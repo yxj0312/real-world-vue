@@ -5,10 +5,14 @@ import { FETCH_START, FETCH_END } from "@/store/mutations.type";
 const state = {
   tags: [],
   articles: [],
-  isLoading: true
+  isLoading: true,
+  articlesCount: 0
 };
 
 const getters = {
+  articlesCount(state) {
+    return state.articlesCount;
+  },
   articles(state) {
     return state.articles;
   },
