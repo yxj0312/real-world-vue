@@ -1,6 +1,12 @@
 import ApiService from "@/common/api.service";
 import JwtService from "@/common/jwt.service";
-import { LOGIN, LOGOUT, REGISTER, UPDATE_USER } from "./actions.type";
+import {
+  CHECK_AUTH,
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  UPDATE_USER
+} from "./actions.type";
 import { SET_AUTH, PURGE_AUTH, SET_ERROR } from "./mutations.type";
 
 const state = {
@@ -47,7 +53,20 @@ const actions = {
         });
     });
   },
-
+  [CHECK_AUTH](context) {
+    if (JwtService.getToken()) {
+      ApiService.setHeader();
+      ApiService.get("user")
+        .then(({ data }) => {
+          context.commit(SET_AUTH, data.user);
+        })
+        .catch(({ response }) => {
+          context.commit(SET_ERROR, response.data.errors);
+        });
+    } else {
+      context.commit(PURGE_AUTH);
+    }
+  },
   [UPDATE_USER](context, payload) {
     const { email, username, password, image, bio } = payload;
     const user = {
