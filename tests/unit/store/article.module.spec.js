@@ -60,6 +60,24 @@ jest.mock("vue", () => {
 });
 
 describe("Vuex Article Module", () => {
+  it("should commit the previous article if it is given", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const articleSlug = "8371b051-cffc-4ff0-887c-2c477615a28e";
+    const prevArticle = {
+      author: {},
+      title: "Aye up, she's a reight bobby dazzler",
+      description:
+        "Yer flummoxed. Fair t' middlin, this is. Off f'r a sup down t'pub, to'neet. Ee bye ecky thump!",
+      body:
+        "Tha's better bi careful, lass - yer on a Scarborough warning! Tha meks a better door than a winder. Do I 'eckers like, You're in luck m'boy! Am proper knackered, aye I am that is I say.",
+      tagList: ["aye", "ipsum", "javascript", "vue"]
+    };
+    await actions[FETCH_ARTICLE](context, articleSlug, prevArticle);
+    expect(commitFunction.mock.calls[0][0]).toBe("setArticle");
+    expect(commitFunction.mock.calls[0][1]).toBe(prevArticle);
+  });
+
   it("should return the data of the api call when calling the function", async () => {
     const context = { commit: () => {} };
     const articleSlug = "8371b051-cffc-4ff0-887c-2c477615a28e";
