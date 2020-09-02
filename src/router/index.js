@@ -58,6 +58,12 @@ export default new Router({
           component: () => import("@/views/ProfileFavorited")
         }
       ]
+    },
+    {
+      name: "article",
+      path: "/article/:slug",
+      component: () => import("@/views/Article"),
+      props: true
     }
   ]
 });
