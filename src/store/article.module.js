@@ -33,8 +33,15 @@ const getters = {
   }
 };
 
+export const mutations = {
+  [SET_ARTICLE](state, article) {
+    state.article = article;
+  }
+};
+
 export default {
   state,
   actions,
+  mutations,
   getters
 };
