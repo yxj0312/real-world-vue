@@ -24,6 +24,13 @@ import RwvArticleMeta from "@/components/ArticleMeta";
 import { FETCH_ARTICLE } from "@/store/actions.type";
 
 export default {
+  name: "rwv-article",
+  props: {
+    slug: {
+      type: String,
+      required: true
+    }
+  },
   components: { RwvArticleMeta },
   beforeRouteEnter(to, from, next) {
     Promise.all([store.dispatch(FETCH_ARTICLE, to.params.slug)]).then(() => {
