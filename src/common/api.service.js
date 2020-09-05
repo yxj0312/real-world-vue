@@ -49,6 +49,12 @@ const ApiService = {
 
 export default ApiService;
 
+export const TagsService = {
+  get() {
+    return ApiService.get("tags");
+  }
+};
+
 export const ArticlesService = {
   query(type, params) {
     return ApiService.query("articles" + (type === "feed" ? "/feed" : ""), {

@@ -1,6 +1,6 @@
-import { ArticlesService } from "@/common/api.service";
-import { FETCH_ARTICLES } from "@/store/actions.type";
-import { FETCH_START, FETCH_END } from "@/store/mutations.type";
+import { ArticlesService, TagsService } from "@/common/api.service";
+import { FETCH_ARTICLES, FETCH_TAGS } from "@/store/actions.type";
+import { FETCH_START, FETCH_END, SET_TAGS } from "@/store/mutations.type";
 
 const state = {
   tags: [],
@@ -35,6 +35,15 @@ export const actions = {
       .catch(error => {
         throw new Error(error);
       });
+  },
+  [FETCH_TAGS]({ commit }) {
+    return TagsService.get()
+      .then(({ data }) => {
+        commit(SET_TAGS, data.tags);
+      })
+      .catch(error => {
+        throw new Error(error);
+      });
   }
 };
 
@@ -46,6 +55,9 @@ const mutations = {
     state.articles = articles;
     state.articlesCount = articlesCount;
     state.isLoading = false;
+  },
+  [SET_TAGS](state, tags) {
+    state.tags = tags;
   }
 };
 
