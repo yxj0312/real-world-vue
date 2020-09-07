@@ -5,6 +5,7 @@ export const SET_ARTICLE = "setArticle";
 export const SET_TAGS = "setTags";
 export const TAG_ADD = "addTag";
 export const TAG_REMOVE = "removeTag";
+export const UPDATE_ARTICLE_IN_LIST = "updateArticleInList";
 export const FETCH_START = "setLoading";
 export const FETCH_END = "setArticles";
 export const SET_PROFILE = "setProfile";

@@ -1,6 +1,10 @@
-import { ArticlesService } from "@/common/api.service";
-import { FETCH_ARTICLE } from "@/store/actions.type";
-import { SET_ARTICLE } from "@/store/mutations.type";
+import { ArticlesService, FavoriteService } from "@/common/api.service";
+import {
+  FETCH_ARTICLE,
+  FAVORITE_ADD,
+  FAVORITE_REMOVE
+} from "@/store/actions.type";
+import { SET_ARTICLE, UPDATE_ARTICLE_IN_LIST } from "@/store/mutations.type";
 
 const initialState = {
   article: {
@@ -24,6 +28,17 @@ export const actions = {
     const { data } = await ArticlesService.get(articleSlug);
     context.commit(SET_ARTICLE, data.article);
     return data;
+  },
+  async [FAVORITE_ADD](context, slug) {
+    const { data } = await FavoriteService.add(slug);
+    context.commit(UPDATE_ARTICLE_IN_LIST, data.article, { root: true });
+    context.commit(SET_ARTICLE, data.article);
+  },
+  async [FAVORITE_REMOVE](context, slug) {
+    const { data } = await FavoriteService.remove(slug);
+    // Update list as well. This allows us to favorite an article in the Home view.
+    context.commit(UPDATE_ARTICLE_IN_LIST, data.article, { root: true });
+    context.commit(SET_ARTICLE, data.article);
   }
 };
 
