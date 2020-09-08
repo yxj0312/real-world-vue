@@ -28,7 +28,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { FAVORITE_ADD, FAVORITE_REMOVE } from "@/store/actions.type";
+import {
+  ARTICLE_DELETE,
+  FAVORITE_ADD,
+  FAVORITE_REMOVE,
+  FETCH_PROFILE_FOLLOW,
+  FETCH_PROFILE_UNFOLLOW
+} from "@/store/actions.type";
 
 export default {
   name: "RwvArticleActions",
@@ -73,6 +79,24 @@ export default {
       }
       const action = this.article.favorited ? FAVORITE_REMOVE : FAVORITE_ADD;
       this.$store.dispatch(action, this.article.slug);
+    }
+  },
+  toggleFollow() {
+    if (!this.isAuthenticated) {
+      this.$router.push({ name: "login" });
+      return;
+    }
+    const action = this.article.following
+      ? FETCH_PROFILE_FOLLOW
+      : FETCH_PROFILE_UNFOLLOW;
+    this.$store.dispatch(action, { username: this.profile.name });
+  },
+  async deleteArticle() {
+    try {
+      await this.$store.dispatch(ARTICLE_DELETE, this.article.slug);
+      await this.$router.push("/");
+    } catch (err) {
+      return err;
     }
   }
 };
