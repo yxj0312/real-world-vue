@@ -92,10 +92,11 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-      const action = this.article.following
-        ? FETCH_PROFILE_FOLLOW
-        : FETCH_PROFILE_UNFOLLOW;
-      this.$store.dispatch(action, { username: this.profile.name });
+      const action = this.profile.following
+        ? FETCH_PROFILE_UNFOLLOW
+        : FETCH_PROFILE_FOLLOW;
+
+      this.$store.dispatch(action, { username: this.profile.username });
     },
     async deleteArticle() {
       try {
