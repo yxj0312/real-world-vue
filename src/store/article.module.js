@@ -1,10 +1,19 @@
-import { ArticlesService, FavoriteService } from "@/common/api.service";
+import {
+  ArticlesService,
+  CommentsService,
+  FavoriteService
+} from "@/common/api.service";
 import {
   FETCH_ARTICLE,
   FAVORITE_ADD,
-  FAVORITE_REMOVE
+  FAVORITE_REMOVE,
+  FETCH_COMMENTS
 } from "@/store/actions.type";
-import { SET_ARTICLE, UPDATE_ARTICLE_IN_LIST } from "@/store/mutations.type";
+import {
+  SET_ARTICLE,
+  SET_COMMENTS,
+  UPDATE_ARTICLE_IN_LIST
+} from "@/store/mutations.type";
 
 const initialState = {
   article: {
@@ -28,6 +37,11 @@ export const actions = {
     const { data } = await ArticlesService.get(articleSlug);
     context.commit(SET_ARTICLE, data.article);
     return data;
+  },
+  async [FETCH_COMMENTS](context, articleSlug) {
+    const { data } = await CommentsService.get(articleSlug);
+    context.commit(SET_COMMENTS, data.comments);
+    return data.comments;
   },
   async [FAVORITE_ADD](context, slug) {
     const { data } = await FavoriteService.add(slug);

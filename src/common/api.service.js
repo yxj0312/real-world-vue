@@ -75,6 +75,17 @@ export const ArticlesService = {
   }
 };
 
+export const CommentsService = {
+  get(slug) {
+    if (typeof slug !== "string") {
+      throw new Error(
+        "[RMV] CommentsService.get() article slug required to fetch comments"
+      );
+    }
+    return ApiService.get("articles", `${slug}/comments`);
+  }
+};
+
 export const FavoriteService = {
   add(slug) {
     return ApiService.post(`articles/${slug}/favorite`);

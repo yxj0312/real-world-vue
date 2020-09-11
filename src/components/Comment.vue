@@ -19,7 +19,7 @@
       </router-link>
       <span class="date-posted">{{ comment.createdAt | date }}</span>
       <span v-if="isCurrentUser" class="mod-options">
-        <!--        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>-->
+        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
       </span>
     </div>
   </div>

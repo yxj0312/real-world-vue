@@ -1,5 +1,9 @@
 import { actions } from "@/store/article.module";
-import { FAVORITE_ADD, FETCH_ARTICLE } from "@/store/actions.type";
+import {
+  FAVORITE_ADD,
+  FETCH_ARTICLE,
+  FETCH_COMMENTS
+} from "@/store/actions.type";
 
 jest.mock("vue", () => {
   return {
@@ -130,6 +134,29 @@ describe("Vuex Article Module", () => {
       prevArticle
     );
     expect(actionCall).toMatchSnapshot();
+  });
+
+  it("should commit the right name when fetching comments for an existing article", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const articleSlug = "f986b3d6-95c2-4c4f-a6b9-fbbf79d8cb0c";
+    await actions[FETCH_COMMENTS](context, articleSlug);
+    expect(commitFunction.mock.calls[0][0]).toBe("setComments");
+  });
+
+  it("should commit the exact size of comments", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const articleSlug = "f986b3d6-95c2-4c4f-a6b9-fbbf79d8cb0c";
+    await actions[FETCH_COMMENTS](context, articleSlug);
+    expect(commitFunction.mock.calls[0][1]).toHaveLength(2);
+  });
+
+  it("should return the comments from the fetch comments action", async () => {
+    const context = { commit: () => {} };
+    const articleSlug = "f986b3d6-95c2-4c4f-a6b9-fbbf79d8cb0c";
+    const comments = await actions[FETCH_COMMENTS](context, articleSlug);
+    expect(comments).toHaveLength(2);
   });
 
   it("should  commit updating the article in the list action favorize an article", async () => {
