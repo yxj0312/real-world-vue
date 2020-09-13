@@ -32,3 +32,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### The Api spec 
+See [Designing a Robust JSON API](https://thinkster.io/tutorials/design-a-robust-json-api)
