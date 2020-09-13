@@ -1,5 +1,6 @@
 import { actions } from "@/store/article.module";
 import {
+  COMMENT_CREATE,
   FAVORITE_ADD,
   FETCH_ARTICLE,
   FETCH_COMMENTS
@@ -157,6 +158,20 @@ describe("Vuex Article Module", () => {
     const articleSlug = "f986b3d6-95c2-4c4f-a6b9-fbbf79d8cb0c";
     const comments = await actions[FETCH_COMMENTS](context, articleSlug);
     expect(comments).toHaveLength(2);
+  });
+
+  it("should dispatch a fetching comment action after successfully creating a comment", async () => {
+    const dispatchFunction = jest.fn();
+    const context = { dispatch: dispatchFunction };
+    const payload = {
+      slug: "582e1e46-6b8b-4f4d-8848-f07b57e015a0",
+      comment: "Lorem Ipsum"
+    };
+    await actions[COMMENT_CREATE](context, payload);
+    expect(dispatchFunction).toHaveBeenLastCalledWith(
+      "fetchComments",
+      "582e1e46-6b8b-4f4d-8848-f07b57e015a0"
+    );
   });
 
   it("should  commit updating the article in the list action favorize an article", async () => {
