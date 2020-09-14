@@ -88,6 +88,9 @@ export const CommentsService = {
     return ApiService.post(`articles/${slug}/comments`, {
       comment: { body: payload }
     });
+  },
+  destroy(slug, commentId) {
+    return ApiService.delete(`articles/${slug}/comments/${commentId}`);
   }
 };
 
