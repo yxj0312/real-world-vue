@@ -27,6 +27,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { COMMENT_DESTROY } from "@/store/actions.type";
 
 export default {
   name: "RwvComment",
@@ -43,6 +44,10 @@ export default {
     },
     ...mapGetters(["currentUser"])
   },
-  methods: {}
+  methods: {
+    destroy(slug, commentId) {
+      this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
+    }
+  }
 };
 </script>
