@@ -1,6 +1,7 @@
 import { actions } from "@/store/article.module";
 import {
   COMMENT_CREATE,
+  COMMENT_DESTROY,
   FAVORITE_ADD,
   FETCH_ARTICLE,
   FETCH_COMMENTS
@@ -171,6 +172,20 @@ describe("Vuex Article Module", () => {
     expect(dispatchFunction).toHaveBeenLastCalledWith(
       "fetchComments",
       "582e1e46-6b8b-4f4d-8848-f07b57e015a0"
+    );
+  });
+
+  it("should dispatch a fetching comment action after comment action after successfully deleting a comment", async () => {
+    const dispatchFunction = jest.fn();
+    const context = { dispatch: dispatchFunction };
+    const payload = {
+      slug: "657a6075-d269-4aec-83fa-b14f579a3e78",
+      commentId: 1
+    };
+    await actions[COMMENT_DESTROY](context, payload);
+    expect(dispatchFunction).toHaveBeenLastCalledWith(
+      "fetchComments",
+      "657a6075-d269-4aec-83fa-b14f579a3e78"
     );
   });
 
