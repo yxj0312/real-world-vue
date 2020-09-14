@@ -7,7 +7,8 @@ import {
   FETCH_ARTICLE,
   FAVORITE_ADD,
   FAVORITE_REMOVE,
-  FETCH_COMMENTS
+  FETCH_COMMENTS,
+  COMMENT_CREATE
 } from "@/store/actions.type";
 import {
   SET_ARTICLE,
@@ -42,6 +43,10 @@ export const actions = {
     const { data } = await CommentsService.get(articleSlug);
     context.commit(SET_COMMENTS, data.comments);
     return data.comments;
+  },
+  async [COMMENT_CREATE](context, payload) {
+    await CommentsService.post(payload.slug, payload.comment);
+    context.dispatch(FETCH_COMMENTS, payload.slug);
   },
   async [FAVORITE_ADD](context, slug) {
     const { data } = await FavoriteService.add(slug);
