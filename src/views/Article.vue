@@ -19,6 +19,20 @@
             </ul>
           </div>
         </div>
+        <hr />
+        <div class="article-actions">
+          <RwvArticleMeta :article="article" :actions="true" />
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-8 offset-md-2">
+            <RwvComment
+              v-for="(comment, index) in comments"
+              :slug="slug"
+              :comment="comment"
+              :key="index"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -26,11 +40,12 @@
 
 <script>
 import RwvTag from "@/components/VTag";
+import RwvArticleMeta from "@/components/ArticleMeta";
+import RwvComment from "@/components/Comment";
 import { mapGetters } from "vuex";
 import marked from "marked";
 import store from "@/store";
-import RwvArticleMeta from "@/components/ArticleMeta";
-import { FETCH_ARTICLE } from "@/store/actions.type";
+import { FETCH_ARTICLE, FETCH_COMMENTS } from "@/store/actions.type";
 
 export default {
   name: "rwv-article",
@@ -40,9 +55,12 @@ export default {
       required: true
     }
   },
-  components: { RwvTag, RwvArticleMeta },
+  components: { RwvComment, RwvTag, RwvArticleMeta },
   beforeRouteEnter(to, from, next) {
-    Promise.all([store.dispatch(FETCH_ARTICLE, to.params.slug)]).then(() => {
+    Promise.all([
+      store.dispatch(FETCH_ARTICLE, to.params.slug),
+      store.dispatch(FETCH_COMMENTS, to.params.slug)
+    ]).then(() => {
       next();
     });
   },
