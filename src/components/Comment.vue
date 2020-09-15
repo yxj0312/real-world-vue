@@ -7,8 +7,8 @@
       <a href="" class="comment-author">
         <img
           :src="comment.author.image"
-          alt="comment author image"
           class="comment-author-img"
+          alt="comment author image"
         />
       </a>
       <router-link
@@ -51,3 +51,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.card-text {
+  color: black;
+}
+</style>

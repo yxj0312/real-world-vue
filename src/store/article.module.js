@@ -70,12 +70,18 @@ export const actions = {
 const getters = {
   article(state) {
     return state.article;
+  },
+  comments(state) {
+    return state.comments;
   }
 };
 
 export const mutations = {
   [SET_ARTICLE](state, article) {
     state.article = article;
+  },
+  [SET_COMMENTS](state, comments) {
+    state.comments = comments;
   }
 };
 

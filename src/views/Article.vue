@@ -25,6 +25,15 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-8 offset-md-2">
+            <div v-if="isAuthenticated">
+              123
+            </div>
+            <p v-else>
+              <router-link :to="{ name: 'login' }">Sign in</router-link>
+              or
+              <router-link :to="{ name: 'register' }">Sign up</router-link>
+              to add comments on this article
+            </p>
             <RwvComment
               v-for="(comment, index) in comments"
               :slug="slug"
@@ -65,7 +74,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["article", "currentUser", "isAuthenticated"])
+    ...mapGetters(["article", "currentUser", "comments", "isAuthenticated"])
   },
   methods: {
     parseMarkdown(content) {
