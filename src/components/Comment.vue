@@ -45,8 +45,9 @@ export default {
     ...mapGetters(["currentUser"])
   },
   methods: {
-    destroy(slug, commentId) {
-      this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
+    async destroy(slug, commentId) {
+      await this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
+      await this.$router.go(0);
     }
   }
 };
