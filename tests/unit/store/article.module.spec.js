@@ -3,6 +3,7 @@ import {
   COMMENT_CREATE,
   COMMENT_DESTROY,
   FAVORITE_ADD,
+  FAVORITE_REMOVE,
   FETCH_ARTICLE,
   FETCH_COMMENTS
 } from "@/store/actions.type";
@@ -196,6 +197,57 @@ describe("Vuex Article Module", () => {
     await actions[FAVORITE_ADD](context, payload);
     expect(commitFunction.mock.calls[0][0]).toBe("updateArticleInList");
     expect(commitFunction.mock.calls[0][1]).toEqual({
+      author: {},
+      title: "Lorem ipsum dolor sit amet",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed cursus nisl. Morbi pulvinar nisl urna, tincidunt mattis tortor sollicitudin eget. Nulla viverra justo quis.",
+      body:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum efficitur justo, nec aliquam quam rutrum in. Pellentesque vulputate augue quis vulputate finibus. Phasellus auctor semper sapien sit amet interdum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas placerat auctor metus. Integer blandit lacinia volutpat.",
+      tagList: ["lorem", "ipsum", "javascript", "vue"]
+    });
+  });
+
+  it("should commit setting the article", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const payload = "5611ee1b-0b95-417f-a917-86687176a627";
+    await actions[FAVORITE_ADD](context, payload);
+    expect(commitFunction.mock.calls[1][0]).toBe("setArticle");
+    expect(commitFunction.mock.calls[1][1]).toEqual({
+      author: {},
+      title: "Lorem ipsum dolor sit amet",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed cursus nisl. Morbi pulvinar nisl urna, tincidunt mattis tortor sollicitudin eget. Nulla viverra justo quis.",
+      body:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum efficitur justo, nec aliquam quam rutrum in. Pellentesque vulputate augue quis vulputate finibus. Phasellus auctor semper sapien sit amet interdum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas placerat auctor metus. Integer blandit lacinia volutpat.",
+      tagList: ["lorem", "ipsum", "javascript", "vue"]
+    });
+  });
+
+  it("should commit updating the article in the list action favorize an article", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const payload = "480fdaf8-027c-43b1-8952-8403f90dcdab";
+    await actions[FAVORITE_REMOVE](context, payload);
+    expect(commitFunction.mock.calls[0][0]).toBe("updateArticleInList");
+    expect(commitFunction.mock.calls[0][1]).toEqual({
+      author: {},
+      title: "Lorem ipsum dolor sit amet",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed cursus nisl. Morbi pulvinar nisl urna, tincidunt mattis tortor sollicitudin eget. Nulla viverra justo quis.",
+      body:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum efficitur justo, nec aliquam quam rutrum in. Pellentesque vulputate augue quis vulputate finibus. Phasellus auctor semper sapien sit amet interdum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas placerat auctor metus. Integer blandit lacinia volutpat.",
+      tagList: ["lorem", "ipsum", "javascript", "vue"]
+    });
+  });
+
+  it("should commit setting the article", async () => {
+    const commitFunction = jest.fn();
+    const context = { commit: commitFunction };
+    const payload = "480fdaf8-027c-43b1-8952-8403f90dcdab";
+    await actions[FAVORITE_REMOVE](context, payload);
+    expect(commitFunction.mock.calls[1][0]).toBe("setArticle");
+    expect(commitFunction.mock.calls[1][1]).toEqual({
       author: {},
       title: "Lorem ipsum dolor sit amet",
       description:
