@@ -25,9 +25,11 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-8 offset-md-2">
-            <div v-if="isAuthenticated">
-              123
-            </div>
+            <RwvCommentEditor
+              v-if="isAuthenticated"
+              :slug="slug"
+              :userImage="currentUser.image"
+            />
             <p v-else>
               <router-link :to="{ name: 'login' }">Sign in</router-link>
               or
@@ -51,6 +53,7 @@
 import RwvTag from "@/components/VTag";
 import RwvArticleMeta from "@/components/ArticleMeta";
 import RwvComment from "@/components/Comment";
+import RwvCommentEditor from "@/components/CommentEditor";
 import { mapGetters } from "vuex";
 import marked from "marked";
 import store from "@/store";
@@ -64,7 +67,7 @@ export default {
       required: true
     }
   },
-  components: { RwvComment, RwvTag, RwvArticleMeta },
+  components: { RwvCommentEditor, RwvComment, RwvTag, RwvArticleMeta },
   beforeRouteEnter(to, from, next) {
     Promise.all([
       store.dispatch(FETCH_ARTICLE, to.params.slug),

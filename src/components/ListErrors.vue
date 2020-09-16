@@ -1,0 +1,20 @@
+<template v-if="">
+  <ul class="error-messages">
+    <li v-for="(value, key) in errors" :key="key">
+      <span v-text="key"></span>
+      <span v-for="err in value" :key="err" v-text="err"></span>
+    </li>
+  </ul>
+</template>
+
+<script>
+export default {
+  name: "RwvListErrors",
+  props: {
+    errors: {
+      type: Object,
+      required: true
+    }
+  }
+};
+</script>
