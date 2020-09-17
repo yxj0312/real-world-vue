@@ -1,7 +1,13 @@
 <template>
   <div class="card">
     <div class="card-block">
-      <p class="card-text">{{ comment.body }}</p>
+      <RwvCommentEditor
+        v-if="isCurrentUser"
+        :slug="slug"
+        :userImage="currentUser.image"
+        :content="comment.body"
+      />
+      <p v-else class="card-text">{{ comment.body }}</p>
     </div>
     <div class="card-footer">
       <a href="" class="comment-author">
@@ -28,6 +34,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { COMMENT_DESTROY } from "@/store/actions.type";
+import RwvCommentEditor from "@/components/CommentEditor";
 
 export default {
   name: "RwvComment",
@@ -35,6 +42,7 @@ export default {
     slug: { type: String, required: true },
     comment: { type: Object, required: true }
   },
+  components: { RwvCommentEditor },
   computed: {
     isCurrentUser() {
       if (this.currentUser.username && this.comment.author.username) {

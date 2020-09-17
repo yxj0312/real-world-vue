@@ -62,6 +62,7 @@ export default {
       if (this.currentUser.username && this.article.author.username) {
         return this.currentUser.username === this.article.author.username;
       }
+      return false;
     },
     toggleFavorite() {
       if (!this.isAuthenticated) {
