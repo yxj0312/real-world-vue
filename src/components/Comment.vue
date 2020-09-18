@@ -1,10 +1,48 @@
 <template>
-  <RwvCommentEditor
-    :slug="slug"
-    :user-image="comment.author.image"
-    :user-name="comment.author.username"
-    :content="comment"
-  />
+  <div>
+    <form class="card comment-form" @submit.prevent="">
+      <div class="card-block">
+        <label for="commentEditor" hidden>Comment</label>
+        <textarea
+          id="commentEditor"
+          class="form-control"
+          v-model="comment.body"
+          placeholder="Write a comment..."
+          rows="3"
+          :readonly="!isCurrentUser"
+        ></textarea>
+      </div>
+      <div class="card-footer">
+        <router-link
+          class="comment-author"
+          :to="{
+            name: 'profile',
+            params: { username: comment.author.username }
+          }"
+        >
+          <img
+            :src="comment.author.image"
+            class="comment-author-img"
+            alt="comment author image"
+          />
+          {{ comment.author.username }}
+        </router-link>
+        <span class="date-posted">{{ comment.createdAt | date }}</span>
+        <button class="btn btn-outline-danger" v-if="isCurrentUser">
+          <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
+        </button>
+        <button class="btn btn-outline-primary" v-if="isCurrentUser">
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+  <!--  <RwvCommentEditor-->
+  <!--    :slug="slug"-->
+  <!--    :user-image="comment.author.image"-->
+  <!--    :user-name="comment.author.username"-->
+  <!--    :content="comment"-->
+  <!--  />-->
   <!--  <div class="card">-->
   <!--    <div class="card-block">-->
   <!--      <RwvCommentEditor-->
@@ -39,7 +77,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { COMMENT_DESTROY } from "@/store/actions.type";
-import RwvCommentEditor from "@/components/CommentEditor";
+// import RwvCommentEditor from "@/components/CommentEditor";
 
 export default {
   name: "RwvComment",
@@ -47,7 +85,7 @@ export default {
     slug: { type: String, required: true },
     comment: { type: Object, required: true }
   },
-  components: { RwvCommentEditor },
+  // components: { RwvCommentEditor },
   computed: {
     isCurrentUser() {
       if (this.currentUser.username && this.comment.author.username) {
@@ -69,5 +107,8 @@ export default {
 <style>
 .card-text {
   color: black;
+}
+button {
+  margin: 0.225rem;
 }
 </style>
