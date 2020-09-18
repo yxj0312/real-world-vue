@@ -20,11 +20,8 @@
           </div>
         </div>
         <hr />
-        <div class="article-actions">
-          <RwvArticleMeta :article="article" :actions="true" />
-        </div>
         <div class="row">
-          <div class="col-xs-12 col-md-8 offset-md-2">
+          <div class="col-xs-12 col-md-12">
             <p v-if="!isAuthenticated">
               <router-link :to="{ name: 'login' }">Sign in</router-link>
               or

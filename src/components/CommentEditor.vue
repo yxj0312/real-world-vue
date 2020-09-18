@@ -12,6 +12,24 @@
           rows="3"
         ></textarea>
       </div>
+      <div class="card-footer">
+        <router-link
+          class="comment-author"
+          :to="{
+            name: 'profile',
+            params: { username: userName }
+          }"
+        >
+          <img
+            :src="userImage"
+            class="comment-author-img"
+            alt="comment author image"
+          />
+          {{ userName }}
+        </router-link>
+        <span class="date-posted">{{ comment.createdAt | date }}</span>
+        <button class="btn btn-sm btn-primary">Post Comment</button>
+      </div>
     </form>
   </div>
 </template>
@@ -24,7 +42,10 @@ export default {
   name: "RwvCommentEditor",
   components: { RwvListErrors },
   props: {
-    content: { type: String, required: true }
+    slug: { type: String, required: true },
+    content: { type: String, required: false },
+    userImage: { type: String, required: false },
+    userName: { type: String, required: true }
   },
   data() {
     return {

@@ -1,34 +1,39 @@
 <template>
-  <div class="card">
-    <div class="card-block">
-      <RwvCommentEditor
-        v-if="isCurrentUser"
-        :slug="slug"
-        :userImage="currentUser.image"
-        :content="comment.body"
-      />
-      <p v-else class="card-text">{{ comment.body }}</p>
-    </div>
-    <div class="card-footer">
-      <a href="" class="comment-author">
-        <img
-          :src="comment.author.image"
-          class="comment-author-img"
-          alt="comment author image"
-        />
-      </a>
-      <router-link
-        class="comment-author"
-        :to="{ name: 'profile', params: { username: comment.author.username } }"
-      >
-        {{ comment.author.username }}
-      </router-link>
-      <span class="date-posted">{{ comment.createdAt | date }}</span>
-      <span v-if="isCurrentUser" class="mod-options">
-        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
-      </span>
-    </div>
-  </div>
+  <RwvCommentEditor
+    :slug="slug"
+    :user-image="comment.author.image"
+    :user-name="comment.author.username"
+    :content="comment"
+  />
+  <!--  <div class="card">-->
+  <!--    <div class="card-block">-->
+  <!--      <RwvCommentEditor-->
+  <!--        v-if="isCurrentUser"-->
+  <!--        :slug="slug"-->
+  <!--        :content="comment.body"-->
+  <!--      />-->
+  <!--      <p v-else class="card-text">{{ comment.body }}</p>-->
+  <!--    </div>-->
+  <!--    <div class="card-footer">-->
+  <!--      <a href="" class="comment-author">-->
+  <!--        <img-->
+  <!--          :src="comment.author.image"-->
+  <!--          class="comment-author-img"-->
+  <!--          alt="comment author image"-->
+  <!--        />-->
+  <!--      </a>-->
+  <!--      <router-link-->
+  <!--        class="comment-author"-->
+  <!--        :to="{ name: 'profile', params: { username: comment.author.username } }"-->
+  <!--      >-->
+  <!--        {{ comment.author.username }}-->
+  <!--      </router-link>-->
+  <!--      <span class="date-posted">{{ comment.createdAt | date }}</span>-->
+  <!--      <span v-if="isCurrentUser" class="mod-options">-->
+  <!--        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>-->
+  <!--      </span>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </template>
 
 <script>
