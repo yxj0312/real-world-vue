@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="card comment-form" @submit.prevent="">
+    <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)">
       <div class="card-block">
         <label for="commentEditor" hidden>Comment</label>
         <textarea
@@ -37,47 +37,11 @@
       </div>
     </form>
   </div>
-  <!--  <RwvCommentEditor-->
-  <!--    :slug="slug"-->
-  <!--    :user-image="comment.author.image"-->
-  <!--    :user-name="comment.author.username"-->
-  <!--    :content="comment"-->
-  <!--  />-->
-  <!--  <div class="card">-->
-  <!--    <div class="card-block">-->
-  <!--      <RwvCommentEditor-->
-  <!--        v-if="isCurrentUser"-->
-  <!--        :slug="slug"-->
-  <!--        :content="comment.body"-->
-  <!--      />-->
-  <!--      <p v-else class="card-text">{{ comment.body }}</p>-->
-  <!--    </div>-->
-  <!--    <div class="card-footer">-->
-  <!--      <a href="" class="comment-author">-->
-  <!--        <img-->
-  <!--          :src="comment.author.image"-->
-  <!--          class="comment-author-img"-->
-  <!--          alt="comment author image"-->
-  <!--        />-->
-  <!--      </a>-->
-  <!--      <router-link-->
-  <!--        class="comment-author"-->
-  <!--        :to="{ name: 'profile', params: { username: comment.author.username } }"-->
-  <!--      >-->
-  <!--        {{ comment.author.username }}-->
-  <!--      </router-link>-->
-  <!--      <span class="date-posted">{{ comment.createdAt | date }}</span>-->
-  <!--      <span v-if="isCurrentUser" class="mod-options">-->
-  <!--        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>-->
-  <!--      </span>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { COMMENT_DESTROY } from "@/store/actions.type";
-// import RwvCommentEditor from "@/components/CommentEditor";
+import { COMMENT_CREATE, COMMENT_DESTROY } from "@/store/actions.type";
 
 export default {
   name: "RwvComment",
@@ -85,7 +49,6 @@ export default {
     slug: { type: String, required: true },
     comment: { type: Object, required: true }
   },
-  // components: { RwvCommentEditor },
   computed: {
     isCurrentUser() {
       if (this.currentUser.username && this.comment.author.username) {
@@ -99,6 +62,10 @@ export default {
     async destroy(slug, commentId) {
       await this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
       await this.$router.go(0);
+    },
+    // TODO: Refactor
+    async onSubmit(slug, comment) {
+      await this.$store.dispatch(COMMENT_CREATE, { slug, comment });
     }
   }
 };
