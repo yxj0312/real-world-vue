@@ -1,33 +1,24 @@
 <template>
   <div>
     <RwvListErrors :errors="errors" />
-    <form class="card comment-form" @submit.prevent="">
+    <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)">
       <div class="card-block">
-        <label for="commentEditor">Check out</label>
+        <label for="commentEditor" hidden></label>
         <textarea
           id="commentEditor"
           class="form-control"
           v-model="comment"
           placeholder="Write a comment..."
           rows="3"
-        ></textarea>
+        >
+        </textarea>
       </div>
       <div class="card-footer">
-        <router-link
-          class="comment-author"
-          :to="{
-            name: 'profile',
-            params: { username: userName }
-          }"
-        >
-          <img
-            :src="userImage"
-            class="comment-author-img"
-            alt="comment author image"
-          />
-          {{ userName }}
-        </router-link>
-        <span class="date-posted">{{ comment.createdAt | date }}</span>
+        <img
+          :src="userImage"
+          class="comment-author-img"
+          alt="Comment Author Image"
+        />
         <button class="btn btn-sm btn-primary">Post Comment</button>
       </div>
     </form>
@@ -35,23 +26,40 @@
 </template>
 
 <script>
-import RwvListErrors from "./ListErrors";
-// import { COMMENT_CREATE } from "@/store/actions.type";
-
+import RwvListErrors from "./ListErrors.vue";
+import { COMMENT_CREATE } from "@/store/actions.type.js";
 export default {
   name: "RwvCommentEditor",
   components: { RwvListErrors },
   props: {
     slug: { type: String, required: true },
     content: { type: String, required: false },
-    userImage: { type: String, required: false },
-    userName: { type: String, required: true }
+    userImage: { type: String, required: false }
   },
   data() {
     return {
       comment: this.content || null,
       errors: {}
     };
+  },
+  methods: {
+    onSubmit(slug, comment) {
+      this.$store
+        .dispatch(COMMENT_CREATE, { slug, comment })
+        .then(() => {
+          this.comment = null;
+          this.errors = {};
+        })
+        .catch(({ response }) => {
+          this.errors = response.data.errors;
+        });
+    }
   }
 };
 </script>
+
+<style>
+.card-footer {
+  color: black;
+}
+</style>

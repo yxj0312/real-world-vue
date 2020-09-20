@@ -93,6 +93,10 @@ const mutations = {
   [SET_AUTH](state, user) {
     state.isAuthenticated = true;
     state.user = user;
+    state.user.image =
+      user.image === null
+        ? "https://static.productionready.io/images/smiley-cyrus.jpg"
+        : user.image;
     state.errors = {};
     JwtService.saveToken(state.user.token);
   },

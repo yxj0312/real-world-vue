@@ -1,48 +1,33 @@
 <template>
-  <div>
-    <form class="card comment-form" @submit.prevent="onSubmit(slug, comment)">
-      <div class="card-block">
-        <label for="commentEditor" hidden>Comment</label>
-        <textarea
-          id="commentEditor"
-          class="form-control"
-          v-model="comment.body"
-          placeholder="Write a comment..."
-          rows="3"
-          :readonly="!isCurrentUser"
-        ></textarea>
-      </div>
-      <div class="card-footer">
-        <router-link
-          class="comment-author"
-          :to="{
-            name: 'profile',
-            params: { username: comment.author.username }
-          }"
-        >
-          <img
-            :src="comment.author.image"
-            class="comment-author-img"
-            alt="comment author image"
-          />
-          {{ comment.author.username }}
-        </router-link>
-        <span class="date-posted">{{ comment.createdAt | date }}</span>
-        <button class="btn btn-outline-danger" v-if="isCurrentUser">
-          <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
-        </button>
-        <button class="btn btn-outline-primary" v-if="isCurrentUser">
-          Update
-        </button>
-      </div>
-    </form>
+  <div class="card">
+    <div class="card-block">
+      <p class="card-text">{{ comment.body }}</p>
+    </div>
+    <div class="card-footer">
+      <a href="" class="comment-author">
+        <img
+          :src="comment.author.image"
+          class="comment-author-img"
+          alt="Comment author image"
+        />
+      </a>
+      <router-link
+        class="comment-author"
+        :to="{ name: 'profile', params: { username: comment.author.username } }"
+      >
+        {{ comment.author.username }}
+      </router-link>
+      <span class="date-posted">{{ comment.createdAt | date }}</span>
+      <span v-if="isCurrentUser" class="mod-options">
+        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { COMMENT_CREATE, COMMENT_DESTROY } from "@/store/actions.type";
-
+import { COMMENT_DESTROY } from "@/store/actions.type";
 export default {
   name: "RwvComment",
   props: {
@@ -59,13 +44,8 @@ export default {
     ...mapGetters(["currentUser"])
   },
   methods: {
-    async destroy(slug, commentId) {
-      await this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
-      await this.$router.go(0);
-    },
-    // TODO: Refactor
-    async onSubmit(slug, comment) {
-      await this.$store.dispatch(COMMENT_CREATE, { slug, comment });
+    destroy(slug, commentId) {
+      this.$store.dispatch(COMMENT_DESTROY, { slug, commentId });
     }
   }
 };
@@ -74,8 +54,5 @@ export default {
 <style>
 .card-text {
   color: black;
-}
-button {
-  margin: 0.225rem;
 }
 </style>

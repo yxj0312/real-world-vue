@@ -21,19 +21,26 @@
         </div>
         <hr />
         <div class="row">
-          <div class="col-xs-12 col-md-12">
-            <p v-if="!isAuthenticated">
+          <div class="col-xs-12 col-md-8 offset-md-2">
+            <RwvCommentEditor
+              v-if="isAuthenticated"
+              :slug="slug"
+              :userImage="currentUser.image"
+            >
+            </RwvCommentEditor>
+            <p v-else>
               <router-link :to="{ name: 'login' }">Sign in</router-link>
               or
-              <router-link :to="{ name: 'register' }">Sign up</router-link>
-              to add comments on this article
+              <router-link :to="{ name: 'register' }">sign up</router-link>
+              to add comments on this article.
             </p>
             <RwvComment
               v-for="(comment, index) in comments"
               :slug="slug"
               :comment="comment"
               :key="index"
-            />
+            >
+            </RwvComment>
           </div>
         </div>
       </div>
@@ -44,6 +51,7 @@
 <script>
 import RwvTag from "@/components/VTag";
 import RwvArticleMeta from "@/components/ArticleMeta";
+import RwvCommentEditor from "@/components/CommentEditor";
 import RwvComment from "@/components/Comment";
 import { mapGetters } from "vuex";
 import marked from "marked";
@@ -58,7 +66,7 @@ export default {
       required: true
     }
   },
-  components: { RwvComment, RwvTag, RwvArticleMeta },
+  components: { RwvComment, RwvCommentEditor, RwvTag, RwvArticleMeta },
   beforeRouteEnter(to, from, next) {
     Promise.all([
       store.dispatch(FETCH_ARTICLE, to.params.slug),
