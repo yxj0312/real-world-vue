@@ -9,11 +9,19 @@ import {
   FAVORITE_REMOVE,
   FETCH_COMMENTS,
   COMMENT_CREATE,
-  COMMENT_DESTROY
+  COMMENT_DESTROY,
+  ARTICLE_PUBLISH,
+  ARTICLE_DELETE,
+  ARTICLE_EDIT_ADD_TAG,
+  ARTICLE_EDIT_REMOVE_TAG,
+  ARTICLE_RESET_STATE
 } from "@/store/actions.type";
 import {
+  RESET_STATE,
   SET_ARTICLE,
   SET_COMMENTS,
+  TAG_ADD,
+  TAG_REMOVE,
   UPDATE_ARTICLE_IN_LIST
 } from "@/store/mutations.type";
 
@@ -64,6 +72,21 @@ export const actions = {
     // Update list as well. This allows us to favorite an article in the Home view.
     context.commit(UPDATE_ARTICLE_IN_LIST, data.article, { root: true });
     context.commit(SET_ARTICLE, data.article);
+  },
+  [ARTICLE_PUBLISH]({ state }) {
+    return ArticlesService.create(state.article);
+  },
+  [ARTICLE_DELETE](context, slug) {
+    return ArticlesService.destroy(slug);
+  },
+  [ARTICLE_EDIT_ADD_TAG](context, tag) {
+    context.commit(TAG_ADD, tag);
+  },
+  [ARTICLE_EDIT_REMOVE_TAG](context, tag) {
+    context.commit(TAG_REMOVE, tag);
+  },
+  [ARTICLE_RESET_STATE]({ commit }) {
+    commit(RESET_STATE);
   }
 };
 

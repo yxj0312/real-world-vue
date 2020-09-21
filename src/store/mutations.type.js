@@ -10,3 +10,4 @@ export const UPDATE_ARTICLE_IN_LIST = "updateArticleInList";
 export const FETCH_START = "setLoading";
 export const FETCH_END = "setArticles";
 export const SET_PROFILE = "setProfile";
+export const RESET_STATE = "resetModuleState";
