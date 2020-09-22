@@ -15,7 +15,8 @@ import {
   ARTICLE_DELETE,
   ARTICLE_EDIT_ADD_TAG,
   ARTICLE_EDIT_REMOVE_TAG,
-  ARTICLE_RESET_STATE
+  ARTICLE_RESET_STATE,
+  ARTICLE_EDIT
 } from "@/store/actions.type";
 import {
   RESET_STATE,
@@ -80,6 +81,9 @@ export const actions = {
   [ARTICLE_DELETE](context, slug) {
     return ArticlesService.destroy(slug);
   },
+  [ARTICLE_EDIT]({ state }) {
+    return ArticlesService.update(state.article.slug, state.article);
+  },
   [ARTICLE_EDIT_ADD_TAG](context, tag) {
     context.commit(TAG_ADD, tag);
   },
@@ -108,7 +112,7 @@ export const mutations = {
     state.comments = comments;
   },
   [TAG_ADD](state, tag) {
-    state.article.tagList = state.tagList.concat([tag]);
+    state.article.tagList = state.article.tagList.concat([tag]);
   },
   [TAG_REMOVE](state, tag) {
     state.article.tagList = state.article.tagList.filter(t => t !== tag);
