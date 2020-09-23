@@ -12,4 +12,4 @@ deploy:
  github_token: 68747053ad1d976c4952bbcbca4a711c18d23510
  local_dir: dist
  on:
-   branch: git@github.com:yxj0312/yxj0312.github.io.git master
+   branch: master
