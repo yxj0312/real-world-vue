@@ -13,4 +13,4 @@ deploy:
  local_dir: dist
  on:
    branch: master
- target_branch: github.com/yxj0312/yxj0312.github.io.git:master
+ target_branch: github.com/yxj0312/yxj0312.github.io.git
