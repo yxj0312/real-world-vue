@@ -4,13 +4,16 @@ node_js:
 
 cache: npm
 
-script: ./deploy.sh
 
-#deploy:
+deploy:
+ provider: script
+ script: bash ./deploy.sh
+ skip_cleanup: true
+ on:
+   branch: master
+
 # provider: pages
 # skip_cleanup: true
 # github_token: $GITHUB_TOKEN
 # local_dir: dist
-# on:
-#   branch: master
 # target_branch: github.com/yxj0312/yxj0312.github.io.git
