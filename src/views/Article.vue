@@ -88,6 +88,7 @@ export default {
 
 <style>
 .banner {
-  background-color: #0074d9;
+  /*background-color: #0074d9;*/
+  background-color: #42b983;
 }
 </style>
